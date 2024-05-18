@@ -70,14 +70,23 @@
         $(document).ready(function () {
             let $table = $('.js-rep-log-table');
             /* Search only in table element not the whole html */
-            $table.find('.js-delete-rep-log').on('click', function (event) {
-                /* These 2 events are equivalent to returning false */
-                // don't do the default browser behaviour for this event, navigate to its href
-                event.preventDefault();
-                // don't bubble this event up the DOM tree
-                // event.stopPropagation();
+            $table.find('.js-delete-rep-log').on('click', function (e) {
+                // Don't do the default browser behaviour for this event, navigate to its href
+                e.preventDefault();
 
-                console.log('here');
+                // Don't bubble this event up the DOM tree
+                // e.stopPropagation();
+
+                // preventDefault + stopPrapagation <=> return false
+
+                // Target : property on the event object, points to the clicked object
+                // e.target is a DOM Element Object
+                $(e.target).addClass('text-danger');
+
+                // e.target.className = e.target.className + ' text-danger'
+
+                // CONSOLE DIR - see all the properties of a specified JavaScript object
+                console.dir(e.target);
             });
 
             $table.find('tbody tr').on('click', function () {
