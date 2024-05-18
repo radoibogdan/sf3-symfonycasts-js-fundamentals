@@ -21,12 +21,16 @@
                 </thead>
                 <tbody>
                 {% for repLog in repLogs %}
-                    <tr>
+                    <tr data-weight="{{ repLog.totalWeightLifted }}">
                         <td>{{ repLog.itemLabel|trans }}</td>
                         <td>{{ repLog.reps }}</td>
                         <td>{{ repLog.totalWeightLifted }}</td>
                         <td>
-                            &nbsp;<a href="#" class="js-delete-rep-log">
+                            &nbsp;<a
+                                href="#"
+                                class="js-delete-rep-log"
+                                data-url="{{ path('rep_log_delete', {id: repLog.id}) }}"
+                            >
                                 <span class="fa fa-trash"></span>
                             </a>
                         </td>
@@ -41,7 +45,7 @@
                     <tr>
                         <td>&nbsp;</td>
                         <th>Total</th>
-                        <th>{{ totalWeight }}</th>
+                        <th class="js-total-weight">{{ totalWeight }}</th>
                         <td>&nbsp;</td>
                     </tr>
                 </tfoot>
@@ -92,6 +96,25 @@
                     .removeClass('fa-trash')
                     .addClass('fa-spinner')
                     .addClass('fa-spin')
+
+                // data() is a wrapper around core JS functionnality. The data-* attributes are also directly accessible on the DOM Element object
+                // var deleteUrl = $(this)[0].dataset.url OR this.dataset.url
+                let deleteUrl = $(this).data('url');
+
+                // Find the closest tr element by going up the DOM tree
+                let $row = $(this).closest('tr');
+                let $totalWeight = $table.find('.js-total-weight');
+                let newWeight = $totalWeight.html() - $row.data('weight');
+
+                // Delete row
+                $.ajax({
+                    url     : deleteUrl,
+                    method  : 'DELETE',
+                    success : function () {
+                        $totalWeight.html(newWeight);
+                        $row.fadeOut();
+                    }
+                })
             });
 
             $table.find('tbody tr').on('click', function () {
