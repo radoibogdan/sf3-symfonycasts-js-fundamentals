@@ -81,16 +81,21 @@
 
                 // Target : property on the event object, points to the clicked object
                 // e.target is a DOM Element Object
-                $(e.target).addClass('text-danger');
-
                 // e.target.className = e.target.className + ' text-danger'
+                $(this).addClass('text-danger');
 
                 // CONSOLE DIR - see all the properties of a specified JavaScript object
-                console.dir(e.target);
+                // console.dir(e.target);
+
+                // Change trashcan to spinner
+                $(this).find('.fa')
+                    .removeClass('fa-trash')
+                    .addClass('fa-spinner')
+                    .addClass('fa-spin')
             });
 
             $table.find('tbody tr').on('click', function () {
-                console.log('here 2');
+
             })
 
         });
