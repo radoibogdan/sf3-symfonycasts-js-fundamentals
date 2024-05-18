@@ -70,7 +70,13 @@
         $(document).ready(function () {
             let $table = $('.js-rep-log-table');
             /* Search only in table element not the whole html */
-            $table.find('.js-delete-rep-log').on('click', function () {
+            $table.find('.js-delete-rep-log').on('click', function (event) {
+                /* These 2 events are equivalent to returning false */
+                // don't do the default browser behaviour for this event, navigate to its href
+                event.preventDefault();
+                // don't bubble this event up the DOM tree
+                // event.stopPropagation();
+
                 console.log('here');
             });
 
