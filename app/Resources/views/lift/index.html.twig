@@ -70,11 +70,22 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-        /*When document is ready */
-        $(document).ready(function () {
-            let $table = $('.js-rep-log-table');
-            /* Search only in table element not the whole html */
-            $table.find('.js-delete-rep-log').on('click', function (e) {
+        let RepLogApp = {
+            // Init object
+            initialize: function ($wrapper) {
+                this.$wrapper = $wrapper;
+                // Attach event listeners
+                this.$wrapper.find('.js-delete-rep-log').on('click', this.handleRepLogDelete);
+                this.$wrapper.find('tbody tr').on('click', this.handleRowClick);
+            },
+            updateTotalWeightLifted : function () {
+                let totalWeight = 0;
+                this.$wrapper.find('tbody tr').each(function () {
+                    totalWeight += $(this).data('weight'); // $(this) is each tr
+                });
+                this.$wrapper.find('.js-total-weight').html(totalWeight);
+            },
+            handleRepLogDelete: function(e) {
                 // Don't do the default browser behaviour for this event, navigate to its href
                 e.preventDefault();
 
@@ -103,24 +114,29 @@
 
                 // Find the closest tr element by going up the DOM tree
                 let $row = $(this).closest('tr');
-                let $totalWeight = $table.find('.js-total-weight');
-                let newWeight = $totalWeight.html() - $row.data('weight');
 
                 // Delete row
                 $.ajax({
                     url     : deleteUrl,
                     method  : 'DELETE',
                     success : function () {
-                        $totalWeight.html(newWeight);
-                        $row.fadeOut();
+                        $row.fadeOut('normal', function () {
+                            $row.remove();
+                            /* Like calling a static method in PHP */
+                            RepLogApp.updateTotalWeightLifted();
+                        });
                     }
                 })
-            });
-
-            $table.find('tbody tr').on('click', function () {
-
-            })
-
+            },
+            handleRowClick: function () {
+                //
+            }
+        };
+        /*When document is ready */
+        $(document).ready(function () {
+            /* Search only in table element not the whole html */
+            let $table = $('.js-rep-log-table');
+            RepLogApp.initialize($table);
         });
     </script>
 {% endblock %}
