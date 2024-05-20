@@ -2,6 +2,10 @@ Javascript for PHP Geeks Tutorial
 =================================
  [Modern JavaScript Tutorials](http://knpuniversity.com/tracks/javascript#modern-javascript)
 
+Magic happens here :
+- web/assets/js/RepLogApp.js
+- app/Resources/views/lift/index.html.twig
+
 ## Setup
 **Setup parameters.yml**
 First, make sure you have an `app/config/parameters.yml`
