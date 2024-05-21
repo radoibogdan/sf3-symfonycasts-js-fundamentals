@@ -80,7 +80,8 @@
         this.$wrapper = $wrapper;
     };
 
-    Helper.calculateTotalWeight = function () {
+    /* When you create objects that need to be instantiated you need to add its properties and methods to the prototype key */
+    Helper.prototype.calculateTotalWeight = function () {
         let totalWeight = 0;
         this.$wrapper.find('tbody tr').each(function () {
             totalWeight += $(this).data('weight'); // $(this) is each tr
