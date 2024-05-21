@@ -14,6 +14,10 @@
             // Attach event listeners
             this.$wrapper.find('.js-delete-rep-log').on('click', this.handleRepLogDelete.bind(this));
             this.$wrapper.find('tbody tr').on('click', this.handleRowClick.bind(this));
+
+            this.robot = new Robot('Bogdan');
+            this.robot.walk(4);
+            this.robot.sayName();
         },
         updateTotalWeightLifted : function () {
             this.$wrapper.find('.js-total-weight').html(
@@ -89,5 +93,15 @@
 
         return totalWeight;
     };
+
+    let Robot = function (name) {
+        this.name = name;
+    }
+    Robot.prototype.walk = function (distance) {
+        console.log('walking ' + distance + ' meters');
+    }
+    Robot.prototype.sayName = function () {
+        console.log('My name is ' + this.name);
+    }
 
 })(window, jQuery);
