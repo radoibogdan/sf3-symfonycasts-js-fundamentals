@@ -10,14 +10,14 @@
         // Init object
         initialize: function ($wrapper) {
             this.$wrapper = $wrapper;
-            Helper.initialize($wrapper);
+            this.helper = new Helper($wrapper);
             // Attach event listeners
             this.$wrapper.find('.js-delete-rep-log').on('click', this.handleRepLogDelete.bind(this));
             this.$wrapper.find('tbody tr').on('click', this.handleRowClick.bind(this));
         },
         updateTotalWeightLifted : function () {
             this.$wrapper.find('.js-total-weight').html(
-                Helper.calculateTotalWeight()
+                this.helper.calculateTotalWeight()
             );
         },
         handleRepLogDelete: function(e) {
@@ -76,17 +76,17 @@
     /**
      * A "private" object
      */
-    let Helper = {
-        initialize: function ($wrapper) {
-            this.$wrapper = $wrapper;
-        },
-        calculateTotalWeight: function () {
-            let totalWeight = 0;
-            this.$wrapper.find('tbody tr').each(function () {
-                totalWeight += $(this).data('weight'); // $(this) is each tr
-            });
-
-            return totalWeight;
-        }
+    let Helper = function ($wrapper) {
+        this.$wrapper = $wrapper;
     };
+
+    Helper.calculateTotalWeight = function () {
+        let totalWeight = 0;
+        this.$wrapper.find('tbody tr').each(function () {
+            totalWeight += $(this).data('weight'); // $(this) is each tr
+        });
+
+        return totalWeight;
+    };
+
 })(window, jQuery);
