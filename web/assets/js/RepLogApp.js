@@ -2,8 +2,11 @@
  * We are using the self executing function to make RepLogApp and Helper objects only accessible inside the function
  * They are now private and not public anymore.
  */
-(function() {
-    let RepLogApp = {
+(function(window, $) {
+    // Activate a more strict parsing mode
+    'use strict';
+    /* With window => RepLogApp becomes a global variable accessible everywhere */
+    window.RepLogApp = {
         // Init object
         initialize: function ($wrapper) {
             this.$wrapper = $wrapper;
@@ -86,4 +89,4 @@
             return totalWeight;
         }
     };
-})();
+})(window, jQuery);
