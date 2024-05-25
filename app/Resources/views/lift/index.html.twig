@@ -74,8 +74,8 @@
         /*When document is ready */
         $(document).ready(function () {
             /* Search only in table element not the whole html */
-            let $table = $('.js-rep-log-table');
-            RepLogApp.initialize($table);
+            let $wrapper = $('.js-rep-log-table');
+            var repLogApp = new RepLogApp($wrapper);
         });
     </script>
 {% endblock %}

@@ -6,19 +6,15 @@
     // Activate a more strict parsing mode
     'use strict';
     /* With window => RepLogApp becomes a global variable accessible everywhere */
-    window.RepLogApp = {
-        // Init object
-        initialize: function ($wrapper) {
-            this.$wrapper = $wrapper;
-            this.helper = new Helper($wrapper);
-            // Attach event listeners
-            this.$wrapper.find('.js-delete-rep-log').on('click', this.handleRepLogDelete.bind(this));
-            this.$wrapper.find('tbody tr').on('click', this.handleRowClick.bind(this));
+    window.RepLogApp = function ($wrapper) {
+        this.$wrapper = $wrapper;
+        this.helper = new Helper($wrapper);
+        // Attach event listeners
+        this.$wrapper.find('.js-delete-rep-log').on('click', this.handleRepLogDelete.bind(this));
+        this.$wrapper.find('tbody tr').on('click', this.handleRowClick.bind(this));
+    };
 
-            this.robot = new Robot('Bogdan');
-            this.robot.walk(4);
-            this.robot.sayName();
-        },
+    $.extend(window.RepLogApp.prototype, {
         updateTotalWeightLifted : function () {
             this.$wrapper.find('.js-total-weight').html(
                 this.helper.calculateTotalWeight()
@@ -74,8 +70,7 @@
         handleRowClick: function () {
             //
         },
-
-    };
+    });
 
     /**
      * A "private" object
@@ -85,23 +80,15 @@
     };
 
     /* When you create objects that need to be instantiated you need to add its properties and methods to the prototype key */
-    Helper.prototype.calculateTotalWeight = function () {
-        let totalWeight = 0;
-        this.$wrapper.find('tbody tr').each(function () {
-            totalWeight += $(this).data('weight'); // $(this) is each tr
-        });
+    $.extend(Helper.prototype, {
+        calculateTotalWeight : function () {
+            let totalWeight = 0;
+            this.$wrapper.find('tbody tr').each(function () {
+                totalWeight += $(this).data('weight'); // $(this) is each tr
+            });
 
-        return totalWeight;
-    };
-
-    let Robot = function (name) {
-        this.name = name;
-    }
-    Robot.prototype.walk = function (distance) {
-        console.log('walking ' + distance + ' meters');
-    }
-    Robot.prototype.sayName = function () {
-        console.log('My name is ' + this.name);
-    }
+            return totalWeight;
+        }
+    });
 
 })(window, jQuery);
