@@ -12,6 +12,7 @@
         // Attach event listeners
         this.$wrapper.find('.js-delete-rep-log').on('click', this.handleRepLogDelete.bind(this));
         this.$wrapper.find('tbody tr').on('click', this.handleRowClick.bind(this));
+        this.$wrapper.find('.js-new-rep-log-form').on('submit', this.handleNewFormSubmit.bind(this))
     };
 
     $.extend(window.RepLogApp.prototype, {
@@ -69,6 +70,15 @@
         },
         handleRowClick: function () {
             //
+        },
+        handleNewFormSubmit: function (e) {
+            e.preventDefault();
+            let $form = $(e.currentTarget);
+            $.ajax({
+                url: $form.attr('action'),
+                method: 'POST',
+                data: $form.serialize()
+            })
         },
     });
 
