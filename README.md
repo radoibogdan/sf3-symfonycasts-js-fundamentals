@@ -12,10 +12,21 @@ First, make sure you have an `app/config/parameters.yml`
 file (you should). If you don't, copy `app/config/parameters.yml.dist`
 to get it.
 
+**Install composer 2.2 else errors**  
+https://stackoverflow.com/questions/75258393/how-to-install-two-composer-in-one-windows-system  
+- Go to C:\ProgramData\ComposerSetup\bin
+- Create folder composer2.2
+- Copy files  
+    - from C:\ProgramData\ComposerSetup\bin
+    - to   C:\ProgramData\ComposerSetup\bin\composer2.2
+- Rename composer.bat to composer2.2.bat
+- Set path composer2.2 to environment variable
+- Run `composer1 self-update --2.2`
+- Test with `composer2.2 -v`
 
 **Download Composer dependencies**
 ```
-composer install
+composer2.2 install
 ```
 
 **Setup the Database**
