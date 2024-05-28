@@ -75,19 +75,22 @@
         handleNewFormSubmit: function (e) {
             e.preventDefault();
             let $form = $(e.currentTarget);
-            let $tableBody = this.$wrapper.find('tbody');
-            let self = this;
+            let formData = {};
+            // serializeArray => array of objects with "name" and "value" properties,
+            // but we want an array of objects with name => value
+            $.each($form.serializeArray(), function(key, fieldData) {
+                formData[fieldData.name] = fieldData.value
+            })
+
             $.ajax({
-                url: $form.attr('action'),
+                url: $form.data('url'),
                 method: 'POST',
-                data: $form.serialize(),
+                data: JSON.stringify(formData),
                 success: function (data) {
-                    $tableBody.append(data);
-                    self.updateTotalWeightLifted();
+                    console.log("success");
                 },
                 error: function (jqXHR) {
-                    $form.closest('.js-new-rep-log-form-wrapper')
-                        .html(jqXHR.responseText);
+                    console.log('error');
                 }
             })
         },

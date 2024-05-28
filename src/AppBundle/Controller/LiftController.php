@@ -28,11 +28,11 @@ class LiftController extends BaseController
             $em->persist($repLog);
             $em->flush();
 
-            if ($request->isXmlHttpRequest()) {
-                return $this->render('lift/_repRow.html.twig', [
-                    'repLog' => $repLog,
-                ]);
-            }
+//            if ($request->isXmlHttpRequest()) {
+//                return $this->render('lift/_repRow.html.twig', [
+//                    'repLog' => $repLog,
+//                ]);
+//            }
 
             $this->addFlash('notice', 'Reps crunched!');
 
@@ -48,12 +48,12 @@ class LiftController extends BaseController
         }
 
         // We have ajax requests on form submit, so at this point we know the form validation has failed
-        if ($request->isXmlHttpRequest()) {
-            $html = $this->renderView('lift/_form.html.twig', [
-                'form' => $form->createView(),
-            ]);
-            return new Response($html, 400);
-        }
+//        if ($request->isXmlHttpRequest()) {
+//            $html = $this->renderView('lift/_form.html.twig', [
+//                'form' => $form->createView(),
+//            ]);
+//            return new Response($html, 400);
+//        }
 
         return $this->render('lift/index.html.twig', array(
             'form' => $form->createView(),
