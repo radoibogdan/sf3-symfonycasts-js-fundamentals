@@ -91,7 +91,7 @@
                 data: JSON.stringify(formData),
                 success: function (data) {
                     self._clearForm();
-                    self._addRow();
+                    self._addRow(data);
                 },
                 error: function (jqXHR) {
                     let errorData = JSON.parse(jqXHR.responseText);
@@ -130,8 +130,17 @@
             $form[0].reset();
 
         },
-        _addRow: function () {
-
+        _addRow: function (repLog) {
+            // locate template text,
+            let templateText = $('#js-rep-log-row-template').html();
+            // prepare template
+            let template = _.template(templateText);
+            // render template with the variables that should be available in the template
+            let rawHtml = template(repLog);
+            // parseHTML => turns raw html into a jQuery object
+            this.$wrapper.find('tbody')
+                .append($.parseHTML(rawHtml));
+            this.updateTotalWeightLifted();
         }
     });
 
