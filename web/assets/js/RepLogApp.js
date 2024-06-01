@@ -90,7 +90,8 @@
                 method: 'POST',
                 data: JSON.stringify(formData),
                 success: function (data) {
-                    console.log("success");
+                    self._clearForm();
+                    self._addRow();
                 },
                 error: function (jqXHR) {
                     let errorData = JSON.parse(jqXHR.responseText);
@@ -101,21 +102,36 @@
         _mapErrorsToForm: function (errorData) {
             let $form = this.$wrapper.find(this._selectors.newRepForm);
             // Reset
-            $form.find('.js-field-error').remove();
-            $form.find('.form-group').removeClass('has-error');
+            this._removeFormErrors();
 
             // Find all form elements
             $form.find(':input').each(function() {
                 let fieldName = $(this).attr('name');
-                let $formWrapper = $(this).closest('.form-group');
+                let $fieldWrapper = $(this).closest('.form-group');
                 if (!errorData[fieldName]) {
                     return; // no errors
                 }
                 let $error = $('<span class="js-field-error help-block"></span>');
                 $error.html(errorData[fieldName]);
-                $formWrapper.append($error);
-                $formWrapper.addClass('has-error');
+                $fieldWrapper.append($error);
+                $fieldWrapper.addClass('has-error');
             })
+        },
+        _removeFormErrors: function () {
+            let $form = this.$wrapper.find(this._selectors.newRepForm);
+            // Reset
+            $form.find('.js-field-error').remove();
+            $form.find('.form-group').removeClass('has-error');
+        },
+        _clearForm: function () {
+            this._removeFormErrors();
+            let $form = this.$wrapper.find(this._selectors.newRepForm);
+            // $form[0] access the 1st JS DOM ELEMENT (which is the form)
+            $form[0].reset();
+
+        },
+        _addRow: function () {
+
         }
     });
 
