@@ -12,4 +12,4 @@ fos_user_register:
     prefix: /register
 
 fos_js_routing:
-    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing-sf4.xml"
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
