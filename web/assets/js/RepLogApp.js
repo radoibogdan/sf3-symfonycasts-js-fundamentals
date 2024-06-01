@@ -2,7 +2,7 @@
  * We are using the self executing function to make RepLogApp and Helper objects only accessible inside the function
  * They are now private and not public anymore.
  */
-(function(window, $) {
+(function(window, $, Routing) {
     // Activate a more strict parsing mode
     'use strict';
     /* With window => RepLogApp becomes a global variable accessible everywhere */
@@ -24,7 +24,15 @@
             newRepForm: '.js-new-rep-log-form'
         },
         loadRepLogList: function () {
-
+            let self = this;
+            $.ajax({
+                url: Routing.generate('rep_log_list'),
+                success: function (data) {
+                    $.each(data.items, function(key, repLog) {
+                        self._addRow(repLog);
+                    });
+                }
+            })
         },
         updateTotalWeightLifted : function () {
             this.$wrapper.find('.js-total-weight').html(
@@ -169,4 +177,4 @@
         }
     });
 
-})(window, jQuery);
+})(window, jQuery, Routing);

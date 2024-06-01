@@ -39,14 +39,6 @@ class LiftController extends BaseController
             return $this->redirectToRoute('lift');
         }
 
-        $repLogs = $this->getDoctrine()->getRepository('AppBundle:RepLog')
-            ->findBy(array('user' => $this->getUser()))
-        ;
-        $totalWeight = 0;
-        foreach ($repLogs as $repLog) {
-            $totalWeight += $repLog->getTotalWeightLifted();
-        }
-
         // We have ajax requests on form submit, so at this point we know the form validation has failed
 //        if ($request->isXmlHttpRequest()) {
 //            $html = $this->renderView('lift/_form.html.twig', [
@@ -57,9 +49,7 @@ class LiftController extends BaseController
 
         return $this->render('lift/index.html.twig', array(
             'form' => $form->createView(),
-            'repLogs' => $repLogs,
             'leaderboard' => $this->getLeaders(),
-            'totalWeight' => $totalWeight,
         ));
     }
 
