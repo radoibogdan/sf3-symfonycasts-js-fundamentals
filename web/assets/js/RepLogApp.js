@@ -26,12 +26,11 @@
         loadRepLogList: function () {
             let self = this;
             $.ajax({
-                url: Routing.generate('rep_log_list'),
-                success: function (data) {
-                    $.each(data.items, function(key, repLog) {
-                        self._addRow(repLog);
-                    });
-                }
+                url: Routing.generate('rep_log_list')
+            }).then(function (data) {
+                $.each(data.items, function(key, repLog) {
+                    self._addRow(repLog);
+                });
             })
         },
         updateTotalWeightLifted : function () {
@@ -76,15 +75,14 @@
             // Delete row
             $.ajax({
                 url     : deleteUrl,
-                method  : 'DELETE',
-                success : function () {
-                    $row.fadeOut('normal', function () {
-                        $(this).remove(); // In fadeOut context, "this" is the element that was faded out
-                        /* Like calling a static method in PHP */
-                        self.updateTotalWeightLifted();
-                    });
-                }
-            })
+                method  : 'DELETE'
+            }).then(function () {
+                $row.fadeOut('normal', function () {
+                    $(this).remove(); // In fadeOut context, "this" is the element that was faded out
+                    /* Like calling a static method in PHP */
+                    self.updateTotalWeightLifted();
+                });
+            });
         },
         handleRowClick: function () {
             //
@@ -102,23 +100,14 @@
             $.ajax({
                 url: $form.data('url'),
                 method: 'POST',
-                data: JSON.stringify(formData),
-                success: function (data) {
-                    self._clearForm();
-                    self._addRow(data);
-                },
-                error: function (jqXHR) {
-                    let errorData = JSON.parse(jqXHR.responseText);
-                    self._mapErrorsToForm(errorData.errors);
-                }
+                data: JSON.stringify(formData)
             }).then(function (data) {
-                console.log('here');
-                console.log(data);
-                return data;
-            }).then(function (data) {
-                console.log('here 2');
-                console.log(data);
-            })
+                self._clearForm();
+                self._addRow(data);
+            }).catch(function (jqXHR) {
+                let errorData = JSON.parse(jqXHR.responseText);
+                self._mapErrorsToForm(errorData.errors);
+            });
         },
         _mapErrorsToForm: function (errorData) {
             let $form = this.$wrapper.find(this._selectors.newRepForm);
