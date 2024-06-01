@@ -111,6 +111,13 @@
                     let errorData = JSON.parse(jqXHR.responseText);
                     self._mapErrorsToForm(errorData.errors);
                 }
+            }).then(function (data) {
+                console.log('here');
+                console.log(data);
+                return data;
+            }).then(function (data) {
+                console.log('here 2');
+                console.log(data);
             })
         },
         _mapErrorsToForm: function (errorData) {
