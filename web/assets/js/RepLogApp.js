@@ -13,12 +13,18 @@
         // We attach to the wrapper because we have tr elements that are added dynamically
         this.$wrapper.on('click','.js-delete-rep-log', this.handleRepLogDelete.bind(this));
         this.$wrapper.on('click','tbody tr', this.handleRowClick.bind(this));
-        this.$wrapper.on('submit',this._selectors.newRepForm, this.handleNewFormSubmit.bind(this))
+        this.$wrapper.on('submit',this._selectors.newRepForm, this.handleNewFormSubmit.bind(this));
+
+        // Hydrate list
+        this.loadRepLogList();
     };
 
     $.extend(window.RepLogApp.prototype, {
         _selectors: {
             newRepForm: '.js-new-rep-log-form'
+        },
+        loadRepLogList: function () {
+
         },
         updateTotalWeightLifted : function () {
             this.$wrapper.find('.js-total-weight').html(
