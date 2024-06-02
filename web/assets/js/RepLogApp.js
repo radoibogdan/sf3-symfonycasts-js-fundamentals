@@ -106,11 +106,27 @@
                 self._mapErrorsToForm(errorData.errors);
             });
         },
+        // Over complicated things as to create and return a promise
         _saveRepLog: function (data) {
-            return $.ajax({
-                url: Routing.generate('rep_log_new'),
-                method: 'POST',
-                data: JSON.stringify(data)
+            return new Promise (function (resolve, reject) {
+                // 1st ajax call will return an empty response
+                $.ajax({
+                    url: Routing.generate('rep_log_new'),
+                    method: 'POST',
+                    data: JSON.stringify(data)
+                })
+                // execute a 2nd ajax call which uses the url from the Headers of the 1st ajax call
+                .then(function (data, status, jqXHR) {
+                    $.ajax({
+                        url: jqXHR.getResponseHeader('Location')
+                    }).then(function (data) {
+                        resolve(data);
+                    })
+                })
+                // this handles errors
+                .catch(function (jqXHR) {
+                    reject(jqXHR);
+                })
             })
         },
         _mapErrorsToForm: function (errorData) {
