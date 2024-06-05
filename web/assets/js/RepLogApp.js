@@ -101,12 +101,11 @@
             .then(function (data) {
                 self._clearForm();
                 self._addRow(data);
-            }).catch(function (jqXHR) {
-                let errorData = JSON.parse(jqXHR.responseText);
+            }).catch(function (errorData) {
                 self._mapErrorsToForm(errorData.errors);
             });
         },
-        // Over complicated things as to create and return a promise
+        // Var 1 : Over complicated things as to create and return a promise
         _saveRepLog: function (data) {
             return new Promise (function (resolve, reject) {
                 // 1st ajax call will return an empty response
@@ -125,9 +124,26 @@
                 })
                 // this handles errors
                 .catch(function (jqXHR) {
-                    reject(jqXHR);
+                    let errorData = JSON.parse(jqXHR.responseText);
+                    reject(errorData);
                 })
             })
+        },
+        // Var 2
+        _saveRepLog2: function (data) {
+            return $.ajax({
+                        url: Routing.generate('rep_log_new'),
+                        method: 'POST',
+                        data: JSON.stringify(data)
+                    })
+                    // the inner return will be the one returned
+                    .then(function (data, status, jqXHR) {
+                        return $.ajax({
+                            url: jqXHR.getResponseHeader('Location')
+                        })
+                    })
+                    // For the catch you have to parse it before you send it to _mapErrorsToForm
+                    // JSON.parse(jqXHR.responseText)
         },
         _mapErrorsToForm: function (errorData) {
             let $form = this.$wrapper.find(this._selectors.newRepForm);
