@@ -51,6 +51,20 @@
             // e.target is a DOM Element Object
             // e.target.className = e.target.className + ' text-danger'
             let $link = $(e.currentTarget);
+            let self = this;
+            Swal.fire({
+                title: "Delete this log",
+                html: "What ? Did you really lift this ?",
+                showCancelButton: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    self._deleteRepLog($link);
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    console.log('canceled');
+                }
+            })
+        },
+        _deleteRepLog: function($link) {
             $link.addClass('text-danger');
 
             // CONSOLE DIR - see all the properties of a specified JavaScript object

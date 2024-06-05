@@ -74,8 +74,14 @@ php bin/console assets:install
 composer2.2 require friendsofsymfony/jsrouting-bundle:^1.6
 ```
 
+## Install SweetAlert2 for Modal
+[SweetAlert Link][3]  
+[SweetAlert CDN][4]
+
 
 ## Links
 
 [1]: https://cdnjs.com/libraries/underscore.js
 [2]: https://github.com/FriendsOfSymfony/FOSJsRoutingBundle/blob/master/Resources/doc/installation.rst
+[3]: https://sweetalert2.github.io/
+[4]: https://www.jsdelivr.com/package/npm/sweetalert2
